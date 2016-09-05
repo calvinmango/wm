@@ -16,9 +16,6 @@ def make_list(n, dist=None, kind='random'):
 	else:
 		raise ValueError('Unknown kind: %r' % kind)
 
-def clone_list(a):
-	return [elm for elm in a]
-
 def selection_sort(a):
 	pass
 
