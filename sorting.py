@@ -18,6 +18,19 @@ import random
 import pprint
 import sys
 
+#if __name__ == '__main__':
+#	class timed_call:
+#		def __init__(self, func):
+#			self.func = func
+#			self.timings = []
+#		def __call__(self, *args, **kwargs):
+#			epoch = time.clock()
+#			result = self.func(*args, **kwargs)
+#			self.timings.append(time.clock() - epoch)
+#			return result
+#else:
+#	timed_call = lambda x: x
+
 def make_list(n, kind= 'random', dist=None):
 	"""
 	This function creates arrays to be sorted using the insertion and
@@ -33,40 +46,72 @@ def make_list(n, kind= 'random', dist=None):
 		return list(range(n))[::-1]
 	else:
 		raise ValueError('Unknown kind: %r' % kind)
-	
 
-def insertion_sorted(a):
+#@timed_call
+def insertion_sort(a):
 	"""
-	This function sorts an array (a) using insertion sort. Starting with
+	insertion_sort sorts an array (a) using insertion sort. Starting with
 	the value in a[1] , the value of the current cell is compared to the
 	value in previous cell and swapped if it is less than the value it is
 	compared to.
 	"""	
-	a = list(a)
 	for i in range(len(a)):
 		for j in range(i, 0, -1):
 			if a[j - 1] <= a[j]:
 				break
 			a[j - 1], a[j] = a[j], a[j -1]
-	return a
 
-def selection_sorted(a):
+#@timed_call
+def selection_sort(a):
 	"""
-	This function sorts an array (a) using selection sort. Each cell is 
+	selection_sort sorts an array (a) using selection sort. Each cell is 
 	checked for the lowest value in the array. After the minimum is 
 	found, it is moved to the earliest open cell in the array. The rest of
 	the unsorted array is then searched for the new minimum and so on until
 	the array is fully sorted.
 	"""	
-	a = list(a)
 	for j in range(len(a)):
 		min = a[j]
 		for i in range(j, len(a)):
 			if a[i] < min:
 				min, a[i] = a[i], min
 		a[j] = min
+
+def insertion_sorted(a):
+	a = list(a)
+	insertion_sort(a)
 	return a
-	
+
+def selection_sorted(a):
+	a = list(a)
+	selection_sort(a)
+	return a
+
+#if __name__ == '__main__':
+#	timings = {}
+#
+#	for kind in ['random', 'increasing', 'decreasing']:
+#		for n in [1000, 2500, 5000, 7500, 10000]:
+#			a = make_list(n, kind=kind)
+#			for _ in range(5):
+#				selection_sorted(a)
+#
+#			timings['selection-%s-%i' % (kind, n)] = selection_sort.timings
+#			print('selection', kind, n, sum(selection_sort.timings)/len(selection_sort.timings), file=sys.stderr)
+#			selection_sort.timings = []
+#
+#			for _ in range(5):
+#				insertion_sorted(a)
+#
+#			timings['insertion-%s-%i' % (kind, n)] = insertion_sort.timings
+#			print('insertion', kind, n, sum(insertion_sort.timings)/len(insertion_sort.timings), file=sys.stderr)
+#			insertion_sort.timings = []
+#
+#	for name, timings in sorted(timings.items()):
+#		print(name)
+#		print(timings)
+#		print(sum(timings)/len(timings))
+
 def main():
 	"""
 	The sorting functions are tested. 30 timings are printed according
@@ -88,7 +133,6 @@ def main():
 	end = time.clock()
 	
 	print('One Thousand Increasing Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -106,7 +150,6 @@ def main():
 	end = time.clock()
 	
 	print('One Thousand Decreasing Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -125,7 +168,6 @@ def main():
 	end = time.clock()
 	
 	print('One Thousand Random Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -143,7 +185,6 @@ def main():
 	end = time.clock()	
 	
 	print('Two Thousand Five Hundred Increasing Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -161,7 +202,6 @@ def main():
 	end = time.clock()
 	
 	print('Two Thousand Five Hundred Decreasing Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -179,7 +219,6 @@ def main():
 	end = time.clock()
 	
 	print('Two Thousand Five Hundred Random Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -197,7 +236,6 @@ def main():
 	end = time.clock()
 	
 	print('Five Thousand Increasing Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -215,7 +253,6 @@ def main():
 	end = time.clock()
 	
 	print('Five Thousand Decreasing Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -233,7 +270,6 @@ def main():
 	end = time.clock()
 	
 	print('Five Thousand Random Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -251,7 +287,6 @@ def main():
 	end = time.clock()
 	
 	print('Seven Thousand Five Hundred Increasing Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -269,7 +304,6 @@ def main():
 	end = time.clock()
 	
 	print('Seven Thousand Five Hundred Decreasing Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -287,7 +321,6 @@ def main():
 	end = time.clock()
 	
 	print('Seven Thousand Five Hundred Random Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -305,7 +338,6 @@ def main():
 	end = time.clock()
 	
 	print('Ten Thousand Increasing Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -323,7 +355,6 @@ def main():
 	end = time.clock()
 	
 	print('Ten Thousand Decreasing Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
 	
 	
@@ -341,9 +372,8 @@ def main():
 	end = time.clock()
 	
 	print('Ten Thousand Random Selection: ' + '{:.20f}'.format(end-start))
-	
 	print()
-
 
 if __name__ == '__main__':
 	main()
+
