@@ -27,6 +27,9 @@ class timed_call:
 		self.timings.append(time.clock() - epoch)
 		return result
 
+if __name__ == '__main__':
+	timed_call = lambda x: x
+
 @timed_call
 def insertion_sorted(a):
 	a = list(a)
