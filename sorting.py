@@ -27,12 +27,11 @@ class timed_call:
 		self.timings.append(time.clock() - epoch)
 		return result
 
-if __name__ == '__main__':
+if __name__ != '__main__':
 	timed_call = lambda x: x
 
 @timed_call
-def insertion_sorted(a):
-	a = list(a)
+def insertion_sort(a):
 	for i in range(len(a)):
 		for j in range(i, 0, -1):
 			if a[j - 1] <= a[j]:
@@ -41,8 +40,7 @@ def insertion_sorted(a):
 	return a
 
 @timed_call
-def selection_sorted(a):
-	a = list(a)
+def selection_sort(a):
 	for j in range(len(a)):
 		least = a[j]
 		for i in range(j + 1, len(a)):
@@ -52,7 +50,17 @@ def selection_sorted(a):
 		a[j] = least
 	return a
 
-def main():
+def insertion_sorted(a):
+	a = list(a)
+	insertion_sort(a)
+	return a
+
+def selection_sorted(a):
+	a = list(a)
+	selection_sort(a)
+	return a
+
+if __name__ == '__main__':
 	timings = {}
 
 	for kind in ['random', 'increasing', 'decreasing']:
@@ -61,22 +69,19 @@ def main():
 			for _ in range(5):
 				selection_sorted(a)
 
-			timings['selection-%s-%i' % (kind, n)] = selection_sorted.timings
-			print('selection', kind, n, sum(selection_sorted.timings)/len(selection_sorted.timings), file=sys.stderr)
-			selection_sorted.timings = []
+			timings['selection-%s-%i' % (kind, n)] = selection_sort.timings
+			print('selection', kind, n, sum(selection_sort.timings)/len(selection_sort.timings), file=sys.stderr)
+			selection_sort.timings = []
 
 			for _ in range(5):
 				insertion_sorted(a)
 
-			timings['insertion-%s-%i' % (kind, n)] = insertion_sorted.timings
-			print('insertion', kind, n, sum(insertion_sorted.timings)/len(insertion_sorted.timings), file=sys.stderr)
-			insertion_sorted.timings = []
+			timings['insertion-%s-%i' % (kind, n)] = insertion_sort.timings
+			print('insertion', kind, n, sum(insertion_sort.timings)/len(insertion_sort.timings), file=sys.stderr)
+			insertion_sort.timings = []
 
 	for name, timings in sorted(timings.items()):
 		print(name)
 		print(timings)
 		print(sum(timings)/len(timings))
-
-if __name__ == '__main__':
-	main()
 
