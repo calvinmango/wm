@@ -1,17 +1,18 @@
 #!/bin/env python3
 
-# Sort.py
-# Team Shamrock
-#
-# Project 1: A Battle of Sorts
-# The purpose of this program is to test and compare the speed of the insertion
-# sort and and selection sort. 
-# 
-# The sorting algorithms are tested on three different types of arrays
-# (increasing order, decreasing order, random order) of five different lengths 
-# (1000 ints, 2500 ints, 5000 ints, 7500 ints, 10000 ints).  Each test is
-# timed and the results are printed to the screen. One run of the program will
-# generate and print a total of 30 timings. 
+"""Sort.py
+Team Shamrock
+
+Project 1: A Battle of Sorts
+The purpose of this program is to test and compare the speed of the insertion
+sort and and selection sort. 
+
+The sorting algorithms are tested on three different types of arrays
+(increasing order, decreasing order, random order) of five different lengths 
+(1000 ints, 2500 ints, 5000 ints, 7500 ints, 10000 ints).  Each test is
+timed and the results are printed to the screen. One run of the program will
+generate and print a total of 30 timings. 
+"""
 
 import time
 import random
@@ -31,10 +32,9 @@ import sys
 #else:
 #	timed_call = lambda x: x
 
-def make_list(n, kind= 'random', dist=None):
-	"""
-	This function creates arrays to be sorted using the insertion and
-	selection sort methods.
+def make_list(n, kind='random', dist=None):
+	"""make_list creates arrays of n elements to be sorted using the
+	insertion and selection sort methods.
 	"""	
 	if kind == 'random':
 		if dist is None:
@@ -49,8 +49,7 @@ def make_list(n, kind= 'random', dist=None):
 
 #@timed_call
 def insertion_sort(a):
-	"""
-	insertion_sort sorts an array (a) using insertion sort. Starting with
+	"""insertion_sort sorts an array (a) using insertion sort. Starting with
 	the value in a[1] , the value of the current cell is compared to the
 	value in previous cell and swapped if it is less than the value it is
 	compared to.
@@ -63,8 +62,7 @@ def insertion_sort(a):
 
 #@timed_call
 def selection_sort(a):
-	"""
-	selection_sort sorts an array (a) using selection sort. Each cell is 
+	"""selection_sort sorts an array (a) using selection sort. Each cell is
 	checked for the lowest value in the array. After the minimum is 
 	found, it is moved to the earliest open cell in the array. The rest of
 	the unsorted array is then searched for the new minimum and so on until
@@ -113,8 +111,7 @@ def selection_sorted(a):
 #		print(sum(timings)/len(timings))
 
 def main():
-	"""
-	The sorting functions are tested. 30 timings are printed according
+	"""The sorting functions are tested. 30 timings are printed according
 	to the program specifications. Each array created is timed twice, once
 	with insertion sort, once with selection sort. 
 	"""
