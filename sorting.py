@@ -1,8 +1,10 @@
+#!/bin/env python3
+
 # Sort.py
 # Team Shamrock
 #
 # Project 1: A Battle of Sorts
-# The purpose of this program is to test and compare the speed of the insertion 
+# The purpose of this program is to test and compare the speed of the insertion
 # sort and and selection sort. 
 # 
 # The sorting algorithms are tested on three different types of arrays
