@@ -16,8 +16,8 @@ generate and print a total of 30 timings.
 
 import time
 import random
-import pprint
-import sys
+#import pprint
+#import sys
 
 #if __name__ == '__main__':
 #	class timed_call:
