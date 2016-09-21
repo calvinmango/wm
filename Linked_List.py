@@ -82,7 +82,9 @@ class Linked_List:
 		self._Node(val, before=self._node_at(index))
 
 	def remove_element_at(self, index):
-		self._node_at(index)._unlink()
+		node = self._node_at(index)
+		node._unlink()
+		return node._value
 
 	def get_element_at(self, index):
 		return self._node_at(index)._value
@@ -108,4 +110,13 @@ if __name__ == '__main__':
 	l.remove_element_at(1)
 	print(l)
 
+
+def should_throw(code, *errs):
+	try:
+		exec(code)
+	except errs:
+		return
+	except:
+		raise AssertionError('raised the wrong kind of exception')
+	raise AssertionError('did not raise an exception')
 
