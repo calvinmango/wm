@@ -22,12 +22,15 @@ class Linked_List:
 				before._prev = self
 
 		def _unlink(self):
-			if self._next is not None:
-				self._next._prev = self._prev
+			_prev = self._prev
+			_next = self._next
+
+			if _next is not None:
+				self._next._prev = _prev
 				self._next = None
 
-			if self._prev is not None:
-				self._prev._next = self._next
+			if _prev is not None:
+				self._prev._next = _next
 				self._prev = None
 
 		def __iter__(self):
@@ -42,6 +45,11 @@ class Linked_List:
 				_next = self._next
 				yield self
 				self = _next
+
+		def __repr__(self):
+			_prev = '0x%x' % id(self._prev) if self._prev is not None else 'None'
+			_next = '0x%x' % id(self._next) if self._next is not None else 'None'
+			return '_Node(_value=%r, prev=%s, next=%s)' % (self._value, _prev, _next)
 
 	def __init__(self):
 		self._head = self._Node()
@@ -84,7 +92,11 @@ class Linked_List:
 			yield node._value
 
 	def __str__(self):
-		return '[%s]' % ', '.join(str(value) for value in self)
+		temp = ', '.join(str(value) for value in self)
+		if temp == '':
+			return '[ ]'
+		else:
+			return '[ %s ]' % temp
 
 if __name__ == '__main__':
 	l = Linked_List()
@@ -93,5 +105,7 @@ if __name__ == '__main__':
 	l.append_element(103)
 	l.append_element(104)
 	l.append_element(105)
-	print(str(l))
+	l.remove_element_at(1)
+	print(l)
+
 
