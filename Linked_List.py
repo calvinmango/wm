@@ -100,6 +100,15 @@ class Linked_List:
 		else:
 			return '[ %s ]' % temp
 
+def should_throw(code, errs, _locals=None):
+	try:
+		exec(code, globals(), _locals)
+	except errs:
+		return
+	except:
+		raise AssertionError('raised the wrong kind of exception')
+	raise AssertionError('did not raise an exception')
+
 if __name__ == '__main__':
 	l = Linked_List()
 	l.append_element(101)
@@ -110,13 +119,9 @@ if __name__ == '__main__':
 	l.remove_element_at(1)
 	print(l)
 
+def main():
+	g = Linked_List()
+	should_throw('g.remove_element_at(1000)', IndexError, locals())
 
-def should_throw(code, *errs):
-	try:
-		exec(code)
-	except errs:
-		return
-	except:
-		raise AssertionError('raised the wrong kind of exception')
-	raise AssertionError('did not raise an exception')
+main()
 
