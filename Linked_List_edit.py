@@ -3,66 +3,71 @@
 class Linked_List:
 	
 	class _Node:
-		
 		def __init__(self, val=None, after=None, before=None):
-			
+			#Initialize a new node with value `val'
 			self._value = val
-			self._next = None
-			self._prev = None
 
+			#`before' and `after' cannot both be specified, because
+			#this would violate the list invariants by (possibly)
+			#linking two unrelated sublists.
 			assert after is None or before is None
 
+			#Setup `self._prev' and `self._next'
 			if after is not None:
 				self._next = after._next
 				self._prev = after
-				after._next._prev = self
-				after._next = self
-
-			if before is not None:
+			elif before is not None:
 				self._next = before
 				self._prev = before._prev
-				before._prev._next = self
-				before._prev = self
-
-		def _unlink(self):
-			#Unlinks names from elements for efficiency
-			_prev = self._prev
-			_next = self._next
-
-			if _next is not None:
-				self._next._prev = _prev
+			else:
+				#`self' is an orphan
 				self._next = None
-
-			if _prev is not None:
-				self._prev._next = _next
 				self._prev = None
 
+			#Insert `self' in between `self._prev' and `self._next'
+			if self._next is not None:
+				self._next._prev = self
+
+			if self._prev is not None:
+				self._prev._next = self
+
+		def _unlink(self):
+			#The operation of unlinking a sentinial is undefined.
+
+			#Bypass `self' in the containing list
+			if self._next is not None:
+				self._next._prev = self._prev
+
+			if self._prev is not None:
+				self._prev._next = self._next
+
+			#Maintain invariants by moving to the orphaned state
+			self._prev = None
+			self._next = None
+
 		def __iter__(self):
-			#enumerates sublist starting from self
-			#skips first element if it is a head sentinial
+			#skip `self' if it is the head sentinial
 			if self._prev is None:
 				self = self._next
-				if self is None:
-					return
 
-			while self._next is not None:
-				_next = self._next
+			#enumerate every element in the sublist
+			while self is not None and self._next is not None:
 				yield self
-				self = _next
+				self = self._next
 
-		def __repr__(self):
-			_prev = '0x%x' % id(self._prev) if self._prev is not None else 'None'
-			_next = '0x%x' % id(self._next) if self._next is not None else 'None'
-			return '_Node(_value=%r, prev=%s, next=%s)' % (self._value, _prev, _next)
-
-	def __init__(self):
+	def __init__(self, items=None):
+		#Create an empty list
 		self._head = self._Node()
-		self._tail = self._Node()
-		self._head._next = self._tail
-		self._tail._prev = self._head
+		self._tail = self._Node(after=self._head)
+
+		#For convenience, populate the list with some items
+		#In "Pythonic" style.
+		if items:
+			for item in items:
+				self.append_element(item)
 
 	def __len__(self):
-		#Uses count to iterate through the list and find the length
+		#Count each item in the list
 		count = 0
 		for _ in self._head:
 			count += 1
@@ -74,15 +79,22 @@ class Linked_List:
 		self._Node(val, before=self._tail)
 
 	def _node_at(self, index):
+		#Locates the _Node at `index'. Raises IndexError if `index' does not specify a node
+
 		if not isinstance(index, int):
 			raise IndexError('indicies must be integers not %s' % index.__class__.__name__)
 
+		if index < 0:
+			raise IndexError('indicies must be positive')
+
+		#Preform a linear search to find node
 		count = 0
 		for node in self._head:
 			if count == index:
 				return node
 			count += 1
 
+		#We've reached the end of the list!
 		raise IndexError('index out of range')
 
 	def insert_element_at(self, val, index):
@@ -100,6 +112,7 @@ class Linked_List:
 		return self._node_at(index)._value
 
 	def __iter__(self):
+		#Enumerate each value in list
 		for node in self._head:
 			yield node._value
 
@@ -111,19 +124,17 @@ class Linked_List:
 		else:
 			return '[ %s ]' % temp
 
-def should_throw(code, errs, _locals=None):
-	#In order to keep the program running after flagging an error, 
-	#should_throw uses try/except to catch error and return nothing
-	try:
-		exec(code, globals(), _locals)
-	except errs:
-		return
-	except:
-		raise AssertionError('raised the wrong kind of exception')
-	raise AssertionError('did not raise an exception')
-
-
 if __name__ == '__main__':
+	def should_throw(code, errs, _locals=None):
+		#In order to keep the program running after flagging an error, 
+		#should_throw uses try/except to catch error and return nothing
+		try:
+			exec(code, globals(), _locals)
+		except errs:
+			return
+		except:
+			raise AssertionError('raised the wrong kind of exception')
+		raise AssertionError('did not raise an exception')
 
 	#Test Case 1
 	#Test every function and if it correctly alters linked list
@@ -159,9 +170,7 @@ if __name__ == '__main__':
 	
 	#Test Case 2
 	#Larger linked list, testing accuracy of element removal and insertion
-	m_list = Linked_List()
-	for i in range(0,20):
-		m_list.append_element(i)
+	m_list = Linked_List(range(0, 20))
 	print("List M: ", m_list)
 	print("Length of List M: ",m_list.__len__())
 	print()
@@ -171,7 +180,7 @@ if __name__ == '__main__':
 	print("Length of List M: ",m_list.__len__())
 	print()
 	
-	m_list.insert_element_at(55,0)
+	m_list.insert_element_at(55, 0)
 	print("List M after insert at index 0: ", m_list)
 	print("Length of List M: ", m_list.__len__())
 	print()
@@ -181,7 +190,7 @@ if __name__ == '__main__':
 	print("Length of List M: ",m_list.__len__())
 	print()
 	
-	m_list.insert_element_at(1000,15)
+	m_list.insert_element_at(1000, 15)
 	print("List M after insert at index 15: ", m_list)
 	print("Length of List M: ", m_list.__len__())
 	print()
