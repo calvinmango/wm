@@ -31,9 +31,14 @@ def Hanoi(n):
 
 if __name__ == '__main__':
   start = time.clock()
-  n = 3
-  if len(sys.argv) >= 2:
+  if len(sys.argv) == 1:
+    n = 3
+  elif len(sys.argv) == 2:
     n = int(sys.argv[1])
+    if n <= 0:
+      raise ValueError('n must be positive')
+  else:
+      raise ValueError('too many arguments')
   Hanoi(n)
   end = time.clock()
   print('computed Hanoi(' + str(n) + ') in ' + str(end - start) + ' seconds.')
