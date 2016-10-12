@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import unittest
 from Deque import Deque
 from Stack import Stack
