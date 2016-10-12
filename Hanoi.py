@@ -5,7 +5,7 @@ from Stack import Stack
 import sys
 
 def Hanoi_rec(n, s, a, d):
-#  print(n, s, a, d)
+  print(n, s, a, d)
 
   if n == 0:
     d.push(s.pop())
@@ -14,8 +14,8 @@ def Hanoi_rec(n, s, a, d):
     d.push(s.pop())
     Hanoi_rec(n - 1, a, s, d)
 
-#  print(n, s, a, d)
-#  print()
+  print(n, s, a, d)
+  print()
 
 def Hanoi(n):
   source = Stack()
