@@ -11,6 +11,8 @@ def Hanoi_rec(n, s, a, d):
     d.push(s.pop())
   else:
     Hanoi_rec(n - 1, s, d, a)
+    #much faster, avoids stack frame
+    #d.push(s.pop())
     Hanoi_rec(0, s, a, d)
     Hanoi_rec(n - 1, a, s, d)
 
