@@ -1,0 +1,17 @@
+Constant time
+ - __init__
+ - __iter__
+ - __next__
+ - __len__
+ - append_element
+
+The following functions preform a linear search for the node
+at the specified index, therefore, the worst case performance
+of these functions is linear with respect to the index specified.
+ - insert_element_at
+ - remove_element_at
+ - get_element_at
+
+__str__ always performs a linear pass through the lists to
+convert each element into a string.
+

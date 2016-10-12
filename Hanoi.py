@@ -23,14 +23,15 @@ def Hanoi(n):
   source = Stack()
   dest = Stack()
   aux = Stack()
+
   i = n-1
   while i >= 0:
     source.push(i)
     i = i - 1
+
   Hanoi_rec(n-1, source, aux, dest)
 
 if __name__ == '__main__':
-  start = time.clock()
   if len(sys.argv) == 1:
     n = 3
   elif len(sys.argv) == 2:
@@ -39,6 +40,7 @@ if __name__ == '__main__':
       raise ValueError('n must be positive')
   else:
       raise ValueError('too many arguments')
+  start = time.clock()
   Hanoi(n)
   end = time.clock()
   print('computed Hanoi(' + str(n) + ') in ' + str(end - start) + ' seconds.')
