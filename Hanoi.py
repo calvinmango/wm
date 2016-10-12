@@ -11,7 +11,7 @@ def Hanoi_rec(n, s, a, d):
     d.push(s.pop())
   else:
     Hanoi_rec(n - 1, s, d, a)
-    d.push(s.pop())
+    Hanoi_rec(1, s, a, d)
     Hanoi_rec(n - 1, a, s, d)
 
   print(n, s, a, d)
