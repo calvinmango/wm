@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 class Linked_List:
 	class _Node:
 		def __init__(self, val=None, after=None, before=None):
@@ -105,23 +103,4 @@ class Linked_List:
 			return '[ ]'
 		else:
 			return '[ %s ]' % temp
-
-if __name__ == '__main__':
-	def should_throw(code, errs, _locals=None):
-		try:
-			exec(code, globals(), _locals)
-		except errs:
-			return
-		#except:
-		#	raise AssertionError('raised the wrong kind of exception')
-		raise AssertionError('did not raise an exception')
-
-	l = Linked_List()
-	l.append_element(101)
-	l.append_element(102)
-	l.append_element(103)
-	l.append_element(104)
-	l.append_element(105)
-	l.remove_element_at(1)
-	print(l)
 
