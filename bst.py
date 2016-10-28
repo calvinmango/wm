@@ -1,80 +1,135 @@
 class Binary_Search_Tree:
-  # TODO.I have provided the public method skeletons. You will need
-  # to add private methods to support the recursive algorithms
-  # discussed in class
+	class _BST_Node:
+		def __init__(self, value):
+			self._value = value
+			self._left = None
+			self._right = None
 
-  class _BST_Node:
-    # TODO The Node class is private. You may add any attributes and
-    # methods you need.
+		def insert(self, value):
+			if value > self._value:
+				if self._right is not None:
+					self._right.insert(value)
+				else:
+					self._right = Binary_Search_Tree._BST_Node(value)
+			elif self._value > value:
+				if self._left is not None:
+					self._left.insert(value)
+				else:
+					self._left = Binary_Search_Tree._BST_Node(value)
+			else: # self._value == value
+				raise ValueError('value %r already in the tree!' % value)
 
-    def __init__(self, value):
-      self._value = value
-      # TODO complete Node initialization
+		def remove(self, value):
+			if value > self._value:
+				if self._right is None:
+					raise KeyError('value %r is not in the tree' % value)
+				self._right = self._right.remove(value)
+			elif self._value > value:
+				if self._left is None:
+					raise KeyError('value %r is not in the tree' % value)
+				self._left = self._left.remove(value)
+			else: # self._value == value
+				if self._left is None:
+					return self._right
+				elif self._right is None:
+					return self._left
+				else: # two children
+					parent = None
+					succ = self._right
+					while succ._left is not None:
+						parent = succ
+						succ = succ._left
 
-  def __init__(self):
-    self._root = None
-    # TODO complete initialization
+					self._value = succ._value
 
-  def insert_element(self, value):
-    # Insert the value specified into the tree at the correct
-    # location based on "less is left; greater is right" binary
-    # search tree ordering. If the value is already contained in
-    # the tree, raise a ValueError. Your solution must be recursive.
-    # This will involve the introduction of additional private
-    # methods to support the recursion control variable.
-    pass # TODO replace pass with your implementation
+					if parent is None:
+						self._right = succ._right
+					else:
+						parent._left = succ._right
 
-  def remove_element(self, value):
-    # Remove the value specified from the tree, raising a ValueError
-    # if the value isn't found. When a replacement value is necessary,
-    # select the minimum value to the from the right as this element's
-    # replacement. Take note of when to move a node reference and when
-    # to replace the value in a node instead. It is not necessary to
-    # return the value (though it would reasonable to do so in some 
-    # implementations). Your solution must be recursive. 
-    # This will involve the introduction of additional private
-    # methods to support the recursion control variable.
-    pass # TODO replace pass with your implementation
+					return self
 
-  def in_order(self):
-    # Construct and return a string representing the in-order
-    # traversal of the tree. Empty trees should be printed as [ ].
-    # Trees with one value should be printed as [ 4 ]. Trees with more
-    # than one value should be printed as [ 4, 7 ]. Note the spacing.
-    # Your solution must be recursive. This will involve the introduction
-    # of additional private methods to support the recursion control 
-    # variable.
-    pass # TODO replace pass with your implementation
+		def in_order(self):
+			values = []
 
-  def pre_order(self):
-    # Construct and return a string representing the pre-order
-    # traversal of the tree. Empty trees should be printed as [ ].
-    # Trees with one value should be printed in as [ 4 ]. Trees with
-    # more than one value should be printed as [ 4, 7 ]. Note the spacing.
-    # Your solution must be recursive. This will involve the introduction
-    # of additional private methods to support the recursion control 
-    # variable.
-    pass # TODO replace pass with your implementation
+			if self._left is not None:
+				values.append(self._left.in_order())
 
-  def post_order(self):
-    # Construct an return a string representing the post-order
-    # traversal of the tree. Empty trees should be printed as [ ].
-    # Trees with one value should be printed in as [ 4 ]. Trees with
-    # more than one value should be printed as [ 4, 7 ]. Note the spacing.
-    # Your solution must be recursive. This will involve the introduction
-    # of additional private methods to support the recursion control 
-    # variable.
-    pass # TODO replace pass with your implementation
+			values.append(str(self._value))
 
-  def get_height(self):
-    # return an integer that represents the height of the tree.
-    # assume that an empty tree has height 0 and a tree with one
-    # node has height 1. This method must operate in constant time.
-    pass # TODO replace pass with your implementation
+			if self._right is not None:
+				values.append(self._right.in_order())
 
-  def __str__(self):
-    return self.in_order()
+			return ', '.join(values)
+
+		def pre_order(self):
+			values = []
+
+			values.append(str(self._value))
+
+			if self._left is not None:
+				values.append(self._left.in_order())
+
+			if self._right is not None:
+				values.append(self._right.in_order())
+
+			return ', '.join(values)
+
+		def post_order(self):
+			values = []
+
+			if self._left is not None:
+				values.append(self._left.in_order())
+
+			if self._right is not None:
+				values.append(self._right.in_order())
+
+			values.append(str(self._value))
+
+			return ', '.join(values)
+
+		def height(self):
+			pass #FIXME
+
+	def __init__(self):
+		self._root = None
+
+	def insert_element(self, value):
+		if self._root is None:
+			self._root = Binary_Search_Tree._BST_Node(value)
+		else:
+			self._root.insert(value)
+
+	def remove_element(self, value):
+		if self._root is None:
+			raise KeyError('value %r is not in the tree' % value)
+		self._root = self._root.remove(value)
+
+	def in_order(self):
+		if self._root is None:
+			return '[ ]'
+		return '[ %s ]' % self._root.in_order()
+
+	def pre_order(self):
+		if self._root is None:
+			return '[ ]'
+		return '[ %s ]' % self._root.pre_order()
+
+	def post_order(self):
+		if self._root is None:
+			return '[ ]'
+		return '[ %s ]' % self._root.post_order()
+
+	def get_height(self):
+		
+		# return an integer that represents the height of the tree.
+		# assume that an empty tree has height 0 and a tree with one
+		# node has height 1. This method must operate in constant time.
+		pass # TODO replace pass with your implementation
+
+	def __str__(self):
+		return self.in_order()
 
 if __name__ == '__main__':
-  pass #unit tests make the main section unnecessary.
+	pass #unit tests make the main section unnecessary.
 
